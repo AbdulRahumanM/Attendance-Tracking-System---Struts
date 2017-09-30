@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+
+<struts-config>
+    <form-beans>
+        <form-bean name="TrackForm" type="com.myapp.struts.admin.TrackForm"/>
+        <form-bean name="EmployeeForm" type="com.myapp.struts.employee.EmployeeForm"/>
+        <form-bean name="UpdateForm" type="com.myapp.struts.admin.UpdateForm"/>
+        <form-bean name="AddForm" type="com.myapp.struts.admin.AddForm"/>
+        <form-bean name="DeleteForm" type="com.myapp.struts.admin.DeleteForm"/>
+        <form-bean name="AdminForm" type="com.myapp.struts.admin.AdminForm"/>
+    
+    </form-beans>
+    
+    <global-exceptions>
+    
+    </global-exceptions>
+
+    <global-forwards>
+    </global-forwards>
+
+    <action-mappings>
+        <action input="/index.jsp" name="AdminForm" path="/adminlogin" scope="request" type="com.myapp.struts.admin.loginAction">
+        <forward name="success" path="/home.jsp"/>
+        <forward name="failure" path="/index.jsp"/>
+    </action>
+    <action input="/home.jsp" name="DeleteForm" path="/deleteref" scope="request" type="com.myapp.struts.admin.DeleteAction">
+        <forward name="deleted" path="/home.jsp"/>
+    </action>
+    <action input="/home.jsp" name="AddForm" path="/newemp" scope="request" type="com.myapp.struts.admin.AddAction">
+        <forward name="added" path="/home.jsp"/>
+    </action>
+    <action input="/home.jsp" name="UpdateForm" path="/update" scope="request" type="com.myapp.struts.admin.UpdateAction">
+        <forward name="updated" path="/home.jsp"/>
+    </action>
+    <action input="/login.jsp" name="EmployeeForm" path="/emplogin" scope="request" type="com.myapp.struts.employee.EmployeeAction">
+    <forward name="success" path="/emphome.jsp"/>
+        <forward name="failure" path="/login.jsp"/>
+    </action>
+    <action input="/home.jsp" name="TrackForm" path="/track" scope="request" type="com.myapp.struts.admin.TrackAction">
+        <forward name="tracking" path="/track.jsp"/>
+    </action>        
+    </action-mappings>
+    
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+
+    <message-resources parameter="com/myapp/struts/ApplicationResource"/>    
+    
+    <!-- ========================= Tiles plugin ===============================-->
+    <!--
+    This plugin initialize Tiles definition factory. This later can takes some
+    parameters explained here after. The plugin first read parameters from
+    web.xml, thenoverload them with parameters defined here. All parameters
+    are optional.
+    The plugin should be declared in each struts-config file.
+    - definitions-config: (optional)
+    Specify configuration file names. There can be several comma
+    separated file names (default: ?? )
+    - moduleAware: (optional - struts1.1)
+    Specify if the Tiles definition factory is module aware. If true
+    (default), there will be one factory for each Struts module.
+    If false, there will be one common factory for all module. In this
+    later case, it is still needed to declare one plugin per module.
+    The factory will be initialized with parameters found in the first
+    initialized plugin (generally the one associated with the default
+    module).
+    true : One factory per module. (default)
+    false : one single shared factory for all modules
+    - definitions-parser-validate: (optional)
+    Specify if xml parser should validate the Tiles configuration file.
+    true : validate. DTD should be specified in file header (default)
+    false : no validation
+
+    Paths found in Tiles definitions are relative to the main context.
+    -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />      
+        <set-property property="moduleAware" value="true" />
+    </plug-in>
+    
+    <!-- ========================= Validator plugin ================================= -->
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+  
+</struts-config>
